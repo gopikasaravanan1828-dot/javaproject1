@@ -1,7 +1,6 @@
 package com.example.gymflex.entity;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 
 @Entity
@@ -30,20 +29,20 @@ public class CheckIn {
         return id;
     }
 
-    public Membership getMembership() {
-        return membership;
-    }
-
-    public LocalDate getCheckInDate() {
-        return checkInDate;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
 
+    public Membership getMembership() {
+        return membership;
+    }
+
     public void setMembership(Membership membership) {
         this.membership = membership;
+    }
+
+    public LocalDate getCheckInDate() {
+        return checkInDate;
     }
 
     public void setCheckInDate(LocalDate checkInDate) {

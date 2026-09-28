@@ -27,19 +27,18 @@ public class PlanService {
     public Plan getPlan(Long id) {
         return planRepository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Plan not found with id: " + id));
+                        new ResourceNotFoundException("Plan not found with ID: " + id));
     }
 
     public Plan updatePlan(Long id, Plan updatedPlan) {
 
-        Plan plan = getPlan(id);
+        Plan existingPlan = getPlan(id);
 
-        plan.setName(updatedPlan.getName());
-        plan.setDuration(updatedPlan.getDuration());
-        plan.setPrice(updatedPlan.getPrice());
+        existingPlan.setName(updatedPlan.getName());
+        existingPlan.setDuration(updatedPlan.getDuration());
+        existingPlan.setPrice(updatedPlan.getPrice());
 
-        return planRepository.save(plan);
+        return planRepository.save(existingPlan);
     }
 
     public void deletePlan(Long id) {

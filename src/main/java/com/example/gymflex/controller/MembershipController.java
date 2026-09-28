@@ -16,25 +16,18 @@ public class MembershipController {
 
     private final MembershipService membershipService;
 
-    public MembershipController(
-            MembershipService membershipService) {
-
+    public MembershipController(MembershipService membershipService) {
         this.membershipService = membershipService;
     }
 
-    // Renew membership
     @PutMapping("/{id}/renew")
     public Membership renewMembership(
             @PathVariable Long id,
             @Valid @RequestBody RenewRequest request) {
 
-        return membershipService.renewMembership(
-                id,
-                request
-        );
+        return membershipService.renewMembership(id, request);
     }
 
-    // Daily check-in
     @PostMapping("/check-in")
     public CheckIn checkIn(
             @Valid @RequestBody CheckInRequest request) {
@@ -42,19 +35,15 @@ public class MembershipController {
         return membershipService.checkIn(request);
     }
 
-    // Expiring in next 7 days
     @GetMapping("/expiring")
     public List<Membership> getExpiringMemberships() {
-
         return membershipService.getExpiringMemberships();
     }
 
-    // Current month attendance
     @GetMapping("/attendance/{memberId}")
     public long getCurrentMonthAttendance(
             @PathVariable Long memberId) {
 
-        return membershipService
-                .getCurrentMonthAttendance(memberId);
+        return membershipService.getCurrentMonthAttendance(memberId);
     }
 }

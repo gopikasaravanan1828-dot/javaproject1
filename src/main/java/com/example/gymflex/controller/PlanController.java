@@ -20,9 +20,7 @@ public class PlanController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Plan createPlan(
-            @Valid @RequestBody Plan plan) {
-
+    public Plan createPlan(@Valid @RequestBody Plan plan) {
         return planService.createPlan(plan);
     }
 

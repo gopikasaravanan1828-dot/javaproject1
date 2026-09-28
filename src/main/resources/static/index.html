@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GymFlex - Gym Management</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h1>GymFlex</h1>
+            <p>Membership Tracker</p>
+        </div>
+
+        <button class="menu-btn active" onclick="showSection('dashboard', this)">
+            Dashboard
+        </button>
+
+        <button class="menu-btn" onclick="showSection('members', this)">
+            Members
+        </button>
+
+        <button class="menu-btn" onclick="showSection('plans', this)">
+            Plans
+        </button>
+
+        <button class="menu-btn" onclick="showSection('checkin', this)">
+            Check-In
+        </button>
+
+        <button class="menu-btn" onclick="showSection('renew', this)">
+            Renew Membership
+        </button>
+
+        <button class="menu-btn" onclick="showSection('attendance', this)">
+            Attendance
+        </button>
+
+    </aside>
+
+
+    <main class="main">
+
+        <header class="topbar">
+            <div>
+                <h2>GymFlex Dashboard</h2>
+                <p>Gym Membership and Attendance Tracker</p>
+            </div>
+        </header>
+
+
+        <!-- DASHBOARD -->
+
+        <section id="dashboard" class="section active">
+
+            <h2>Dashboard</h2>
+
+            <div class="cards">
+
+                <div class="card">
+                    <h3>Total Members</h3>
+                    <p id="totalMembers">0</p>
+                </div>
+
+                <div class="card">
+                    <h3>Total Plans</h3>
+                    <p id="totalPlans">0</p>
+                </div>
+
+                <div class="card">
+                    <h3>Expiring Soon</h3>
+                    <p id="expiringCount">0</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- MEMBERS -->
+
+        <section id="members" class="section">
+
+            <h2>Register Member</h2>
+
+            <form id="memberForm">
+
+                <label for="memberName">Member Name</label>
+                <input
+                    type="text"
+                    id="memberName"
+                    placeholder="Member Name"
+                    required
+                >
+
+                <label for="memberEmail">Email</label>
+                <input
+                    type="email"
+                    id="memberEmail"
+                    placeholder="Email"
+                    required
+                >
+
+                <label for="memberPhone">Phone Number</label>
+                <input
+                    type="text"
+                    id="memberPhone"
+                    placeholder="Phone Number"
+                    required
+                >
+
+                <label for="memberPlan">Plan</label>
+                <select id="memberPlan" required>
+                    <option value="">Select Plan</option>
+                </select>
+
+                <button type="submit">
+                    Register Member
+                </button>
+
+            </form>
+
+            <div id="memberMessage" class="message"></div>
+
+            <h2>Members</h2>
+
+            <div id="membersList"></div>
+
+        </section>
+
+
+        <!-- PLANS -->
+
+        <section id="plans" class="section">
+
+            <h2>Create Plan</h2>
+
+            <form id="planForm">
+
+                <label for="planName">Plan Name</label>
+                <input
+                    type="text"
+                    id="planName"
+                    placeholder="Plan Name"
+                    required
+                >
+
+                <label for="planDuration">Duration</label>
+                <select id="planDuration" required>
+
+                    <option value="">Select Duration</option>
+
+                    <option value="MONTHLY">
+                        Monthly
+                    </option>
+
+                    <option value="QUARTERLY">
+                        Quarterly
+                    </option>
+
+                    <option value="YEARLY">
+                        Yearly
+                    </option>
+
+                </select>
+
+                <label for="planPrice">Price</label>
+                <input
+                    type="number"
+                    id="planPrice"
+                    placeholder="Price"
+                    required
+                >
+
+                <button type="submit">
+                    Create Plan
+                </button>
+
+            </form>
+
+            <div id="planMessage" class="message"></div>
+
+            <h2>Available Plans</h2>
+
+            <div id="plansList"></div>
+
+        </section>
+
+
+        <!-- CHECK IN -->
+
+        <section id="checkin" class="section">
+
+            <h2>Daily Check-In</h2>
+
+            <form id="checkinForm">
+
+                <label for="checkinMembershipId">Membership ID</label>
+                <input
+                    type="number"
+                    id="checkinMembershipId"
+                    placeholder="Membership ID"
+                    required
+                >
+
+                <button type="submit">
+                    Check In
+                </button>
+
+            </form>
+
+            <div id="checkinMessage" class="message"></div>
+
+        </section>
+
+
+        <!-- RENEW -->
+
+        <section id="renew" class="section">
+
+            <h2>Renew Membership</h2>
+
+            <form id="renewForm">
+
+                <label for="renewMembershipId">Membership ID</label>
+                <input
+                    type="number"
+                    id="renewMembershipId"
+                    placeholder="Membership ID"
+                    required
+                >
+
+                <label for="renewPlan">Plan</label>
+                <select id="renewPlan" required>
+                    <option value="">Select Plan</option>
+                </select>
+
+                <button type="submit">
+                    Renew Membership
+                </button>
+
+            </form>
+
+            <div id="renewMessage" class="message"></div>
+
+        </section>
+
+
+        <!-- ATTENDANCE -->
+
+        <section id="attendance" class="section">
+
+            <h2>Current Month Attendance</h2>
+
+            <form id="attendanceForm">
+
+                <label for="attendanceMemberId">Member ID</label>
+                <input
+                    type="number"
+                    id="attendanceMemberId"
+                    placeholder="Member ID"
+                    required
+                >
+
+                <button type="submit">
+                    Check Attendance
+                </button>
+
+            </form>
+
+            <div id="attendanceResult"></div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>

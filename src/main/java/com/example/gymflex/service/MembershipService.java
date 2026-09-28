@@ -33,31 +33,24 @@ public class MembershipService {
         this.checkInRepository = checkInRepository;
     }
 
-    // RENEW MEMBERSHIP
     public Membership renewMembership(
             Long membershipId,
             RenewRequest request) {
 
-        Membership membership =
-                membershipRepository.findById(membershipId)
-                        .orElseThrow(() ->
-                                new ResourceNotFoundException(
-                                        "Membership not found with id: "
-                                                + membershipId));
+        Membership membership = membershipRepository.findById(membershipId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Membership not found with ID: " + membershipId));
 
         Plan plan = planRepository.findById(request.getPlanId())
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Plan not found with id: "
-                                        + request.getPlanId()));
+                                "Plan not found with ID: " + request.getPlanId()));
 
-        LocalDate currentEndDate = membership.getEndDate();
+        LocalDate oldEndDate = membership.getEndDate();
 
         LocalDate newEndDate =
-                calculateEndDate(
-                        currentEndDate,
-                        plan.getDuration()
-                );
+                calculateEndDate(oldEndDate, plan.getDuration());
 
         membership.setPlan(plan);
         membership.setEndDate(newEndDate);
@@ -65,26 +58,20 @@ public class MembershipService {
         return membershipRepository.save(membership);
     }
 
-    // CHECK-IN
     public CheckIn checkIn(CheckInRequest request) {
 
         Membership membership =
-                membershipRepository.findById(
-                        request.getMembershipId()
-                ).orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Membership not found with id: "
-                                        + request.getMembershipId()));
+                membershipRepository.findById(request.getMembershipId())
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException(
+                                        "Membership not found with ID: "
+                                                + request.getMembershipId()));
 
         LocalDate today = LocalDate.now(ZoneId.systemDefault());
 
-        // BUSINESS RULE:
-        // Check-in is rejected if membership has expired.
         if (membership.getEndDate().isBefore(today)) {
-
             throw new BusinessException(
-                    "Check-in rejected. Membership has expired."
-            );
+                    "Check-in rejected. Membership has expired.");
         }
 
         CheckIn checkIn = new CheckIn(
@@ -95,10 +82,10 @@ public class MembershipService {
         return checkInRepository.save(checkIn);
     }
 
-    // MEMBERSHIPS EXPIRING IN NEXT 7 DAYS
     public List<Membership> getExpiringMemberships() {
 
         LocalDate today = LocalDate.now(ZoneId.systemDefault());
+
         LocalDate sevenDaysLater = today.plusDays(7);
 
         return membershipRepository
@@ -108,7 +95,6 @@ public class MembershipService {
                 );
     }
 
-    // ATTENDANCE COUNT FOR CURRENT MONTH
     public long getCurrentMonthAttendance(Long memberId) {
 
         LocalDate today = LocalDate.now(ZoneId.systemDefault());
@@ -117,9 +103,7 @@ public class MembershipService {
                 today.withDayOfMonth(1);
 
         LocalDate lastDay =
-                today.withDayOfMonth(
-                        today.lengthOfMonth()
-                );
+                today.withDayOfMonth(today.lengthOfMonth());
 
         return checkInRepository
                 .countByMembership_Member_IdAndCheckInDateBetween(
@@ -130,23 +114,23 @@ public class MembershipService {
     }
 
     private LocalDate calculateEndDate(
-            LocalDate currentEndDate,
+            LocalDate startDate,
             String duration) {
 
-        return switch (duration.toUpperCase()) {
+        switch (duration.toUpperCase()) {
 
-            case "MONTHLY" ->
-                    currentEndDate.plusMonths(1);
+            case "MONTHLY":
+                return startDate.plusMonths(1);
 
-            case "QUARTERLY" ->
-                    currentEndDate.plusMonths(3);
+            case "QUARTERLY":
+                return startDate.plusMonths(3);
 
-            case "YEARLY" ->
-                    currentEndDate.plusYears(1);
+            case "YEARLY":
+                return startDate.plusYears(1);
 
-            default ->
-                    throw new IllegalArgumentException(
-                            "Duration must be MONTHLY, QUARTERLY or YEARLY");
-        };
+            default:
+                throw new IllegalArgumentException(
+                        "Invalid plan duration: " + duration);
+        }
     }
 }

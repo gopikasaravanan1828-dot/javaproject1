@@ -17,7 +17,6 @@ public class GlobalExceptionHandler {
             ResourceNotFoundException ex) {
 
         Map<String, String> response = new HashMap<>();
-
         response.put("error", ex.getMessage());
 
         return ResponseEntity
@@ -26,11 +25,10 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<Map<String, String>> handleBusiness(
+    public ResponseEntity<Map<String, String>> handleBusinessException(
             BusinessException ex) {
 
         Map<String, String> response = new HashMap<>();
-
         response.put("error", ex.getMessage());
 
         return ResponseEntity
@@ -47,10 +45,7 @@ public class GlobalExceptionHandler {
         ex.getBindingResult()
                 .getFieldErrors()
                 .forEach(error ->
-                        errors.put(
-                                error.getField(),
-                                error.getDefaultMessage()
-                        )
+                        errors.put(error.getField(), error.getDefaultMessage())
                 );
 
         return ResponseEntity

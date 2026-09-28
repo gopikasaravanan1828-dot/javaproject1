@@ -36,8 +36,7 @@ public class MemberService {
         Plan plan = planRepository.findById(request.getPlanId())
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Plan not found with id: "
-                                        + request.getPlanId()));
+                                "Plan not found with ID: " + request.getPlanId()));
 
         Member member = new Member(
                 request.getName(),
@@ -45,16 +44,13 @@ public class MemberService {
                 request.getPhone()
         );
 
-        Member savedMember = memberRepository.save(member);
+        member = memberRepository.save(member);
 
         LocalDate startDate = LocalDate.now(ZoneId.systemDefault());
-        LocalDate endDate = calculateEndDate(
-                startDate,
-                plan.getDuration()
-        );
+        LocalDate endDate = calculateEndDate(startDate, plan.getDuration());
 
         Membership membership = new Membership(
-                savedMember,
+                member,
                 plan,
                 startDate,
                 endDate
@@ -71,20 +67,20 @@ public class MemberService {
             LocalDate startDate,
             String duration) {
 
-        return switch (duration.toUpperCase()) {
+        switch (duration.toUpperCase()) {
 
-            case "MONTHLY" ->
-                    startDate.plusMonths(1);
+            case "MONTHLY":
+                return startDate.plusMonths(1);
 
-            case "QUARTERLY" ->
-                    startDate.plusMonths(3);
+            case "QUARTERLY":
+                return startDate.plusMonths(3);
 
-            case "YEARLY" ->
-                    startDate.plusYears(1);
+            case "YEARLY":
+                return startDate.plusYears(1);
 
-            default ->
-                    throw new IllegalArgumentException(
-                            "Duration must be MONTHLY, QUARTERLY or YEARLY");
-        };
+            default:
+                throw new IllegalArgumentException(
+                        "Invalid plan duration: " + duration);
+        }
     }
 }

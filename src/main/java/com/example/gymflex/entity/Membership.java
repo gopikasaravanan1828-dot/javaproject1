@@ -1,7 +1,6 @@
 package com.example.gymflex.entity;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 
 @Entity
@@ -27,8 +26,7 @@ public class Membership {
     public Membership() {
     }
 
-    public Membership(Member member, Plan plan,
-                      LocalDate startDate, LocalDate endDate) {
+    public Membership(Member member, Plan plan, LocalDate startDate, LocalDate endDate) {
         this.member = member;
         this.plan = plan;
         this.startDate = startDate;
@@ -39,36 +37,36 @@ public class Membership {
         return id;
     }
 
-    public Member getMember() {
-        return member;
-    }
-
-    public Plan getPlan() {
-        return plan;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Member getMember() {
+        return member;
     }
 
     public void setMember(Member member) {
         this.member = member;
     }
 
+    public Plan getPlan() {
+        return plan;
+    }
+
     public void setPlan(Plan plan) {
         this.plan = plan;
     }
 
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
     }
 
     public void setEndDate(LocalDate endDate) {

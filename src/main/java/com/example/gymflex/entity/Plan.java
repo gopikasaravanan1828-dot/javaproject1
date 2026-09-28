@@ -34,28 +34,28 @@ public class Plan {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+    public String getDuration() {
+        return duration;
+    }
+
     public void setDuration(String duration) {
         this.duration = duration;
+    }
+
+    public double getPrice() {
+        return price;
     }
 
     public void setPrice(double price) {
