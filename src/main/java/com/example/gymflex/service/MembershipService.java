@@ -13,6 +13,7 @@ import com.example.gymflex.repository.PlanRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 @Service
@@ -75,7 +76,7 @@ public class MembershipService {
                                 "Membership not found with id: "
                                         + request.getMembershipId()));
 
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now(ZoneId.systemDefault());
 
         // BUSINESS RULE:
         // Check-in is rejected if membership has expired.
@@ -97,7 +98,7 @@ public class MembershipService {
     // MEMBERSHIPS EXPIRING IN NEXT 7 DAYS
     public List<Membership> getExpiringMemberships() {
 
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now(ZoneId.systemDefault());
         LocalDate sevenDaysLater = today.plusDays(7);
 
         return membershipRepository
@@ -110,7 +111,7 @@ public class MembershipService {
     // ATTENDANCE COUNT FOR CURRENT MONTH
     public long getCurrentMonthAttendance(Long memberId) {
 
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now(ZoneId.systemDefault());
 
         LocalDate firstDay =
                 today.withDayOfMonth(1);

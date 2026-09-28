@@ -11,6 +11,7 @@ import com.example.gymflex.repository.PlanRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 @Service
@@ -46,7 +47,7 @@ public class MemberService {
 
         Member savedMember = memberRepository.save(member);
 
-        LocalDate startDate = LocalDate.now();
+        LocalDate startDate = LocalDate.now(ZoneId.systemDefault());
         LocalDate endDate = calculateEndDate(
                 startDate,
                 plan.getDuration()
